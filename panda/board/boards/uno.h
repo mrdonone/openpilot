@@ -220,7 +220,7 @@ void uno_init(void) {
   harness_init();
 
   // Initialize RTC
-  rtc_init();
+  //rtc_init();
 
   // Enable CAN transceivers
   uno_enable_can_transceivers(true);
