@@ -339,7 +339,11 @@ class NaviControl():
     var_speed = navi_speed
     self.lead_0 = self.sm['radarState'].leadOne
     self.lead_1 = self.sm['radarState'].leadTwo
-    self.cut_in = True if self.lead_1.status and (self.lead_0.dRel - self.lead_1.dRel) > 3.0 else False
+    self.leadv3 = self.sm['modelV2'].leadsV3
+
+    # self.cut_in = True if self.lead_1.status and (self.lead_0.dRel - self.lead_1.dRel) > 3.0 else False
+    self.cut_in = True if self.leadv3[1].prob > 0.5 and abs(self.leadv3[1].x[0] - self.leadv3[0].x[0]) > 3.0 else False
+
     self.cutInControl = False
     self.driverSccSetControl = False
 
@@ -361,7 +365,7 @@ class NaviControl():
         var_speed = min(navi_speed, 30 if CS.is_set_speed_in_mph else 45)
       elif self.onSpeedBumpControl:
         var_speed = min(navi_speed, 20 if CS.is_set_speed_in_mph else 30)
-        self.t_interval = int(interp(CS.out.vEgo, [9, 20], [20, 7])) if not (self.onSpeedControl or self.curvSpeedControl or self.cut_in) else 7
+        self.t_interval = int(interp(CS.out.vEgo, [9, 20], [25, 10])) if not (self.onSpeedControl or self.curvSpeedControl or self.cut_in) else 7
       elif self.faststart and CS.CP.vFuture <= 40:
         var_speed = min(navi_speed, 30 if CS.is_set_speed_in_mph else 45)
       elif self.lead_0.status and CS.CP.vFuture >= (min_control_speed-(4 if CS.is_set_speed_in_mph else 7)):
