@@ -574,14 +574,14 @@ class CarController():
         if self.user_specific_feature == 60 and not self.try_early_stop_retrieve and not self.cruise_gap_set_init: # for D.Fyffe
           if self.switch_timer > 0:
             self.switch_timer -= 1
-          elif CS.cruiseGapSet != 2.0 and CS.clu_Vanz > 60:
+          elif CS.cruiseGapSet != 2.0 and CS.clu_Vanz > 64:
             can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.GAP_DIST)) if not self.longcontrol \
               else can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.GAP_DIST, clu11_speed, CS.CP.sccBus))
             self.gap_cnt += 1
             if self.gap_cnt >= randint(6, 8):
               self.gap_cnt = 0
               self.switch_timer = randint(30, 36)
-          elif CS.cruiseGapSet != 1.0 and 0 < CS.clu_Vanz <= 60:
+          elif CS.cruiseGapSet != 1.0 and 0 < CS.clu_Vanz <= 64:
             can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.GAP_DIST)) if not self.longcontrol \
               else can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.GAP_DIST, clu11_speed, CS.CP.sccBus))
             self.gap_cnt += 1
